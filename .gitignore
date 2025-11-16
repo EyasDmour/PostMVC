@@ -1,0 +1,37 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ASP.NET Core static/generated assets
+**/wwwroot/lib/
+**/scopedcss/
+**/staticwebassets*/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / IntelliJ
+.idea/
+*.ipr
+*.iws
+*.sln.iml
+
+# DB files
+*.db
+*.sqlite
+*.sqlite3
+
+# Misc
+*.swp
