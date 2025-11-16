@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: dockerfile.dev
     ports:
       - "5000:5000"
     volumes:
@@ -13,3 +13,19 @@ services:
       - /app/obj       # Prevent overwriting build dirs
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postmvc;Username=postmvc;Password=postmvc_pwd
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=postmvc
+      - POSTGRES_USER=postmvc
+      - POSTGRES_PASSWORD=postmvc_pwd
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
