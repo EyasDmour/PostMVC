@@ -1,21 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PostMVC.Data;
+using PostMVC.Data.Service;
 using PostMVC.Models;
 
 namespace PostMVC.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly PostMVCContext _context;
-
-        public ProjectsController(PostMVCContext context)
+        private readonly IProjectsService _projectsService;
+    
+        public ProjectsController(IProjectsService projectsService)
         {
-            _context = context;
+            _projectsService = projectsService;
         }
         public async Task<ActionResult> Index()
         {
-            var projects = await _context.Projects.ToListAsync();
+            var projects = await _projectsService.GetAll();
             return View(projects);
         }
 
@@ -29,11 +30,7 @@ namespace PostMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                project.StartDate = DateTime.SpecifyKind(project.StartDate, DateTimeKind.Utc);
-                project.EndDate   = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc);
-
-                _context.Projects.Add(project);
-                await _context.SaveChangesAsync();
+                await _projectsService.Add(project);
                 return RedirectToAction("Index");
             }
             return View(project);
