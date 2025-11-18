@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PostMVC.Data;
 using PostMVC.Models;
 
@@ -12,9 +13,9 @@ namespace PostMVC.Controllers
         {
             _context = context;
         }
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var projects = _context.Projects.ToList();
+            var projects = await _context.Projects.ToListAsync();
             return View(projects);
         }
 
@@ -24,7 +25,7 @@ namespace PostMVC.Controllers
         }
         
         [HttpPost]
-        public ActionResult Create(Projects project)
+        public async Task<ActionResult> Create(Projects project)
         {
             if (ModelState.IsValid)
             {
@@ -32,7 +33,7 @@ namespace PostMVC.Controllers
                 project.EndDate   = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc);
 
                 _context.Projects.Add(project);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(project);
