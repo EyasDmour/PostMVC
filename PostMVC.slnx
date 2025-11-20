@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="APIforPostMVC/APIforPostMVC.csproj" />
   <Project Path="PostMVC/PostMVC.csproj" />
 </Solution>

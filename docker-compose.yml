@@ -1,25 +1,41 @@
 services:
-  web:
+  postmvc:
     build:
       context: .
-      dockerfile: dockerfile.dev
+      dockerfile: Dockerfile.dev
     ports:
       - "5000:5000"
     volumes:
-      - ./:/app        # Mount your local source code
-      - /app/bin       # Prevent overwriting build dirs
-      - /app/obj       # Prevent overwriting build dirs
+      - ./PostMVC:/app
+      - /app/bin
+      - /app/obj
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postmvc;Username=postmvc;Password=postmvc_pwd
       - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1
       - DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
       - ASPNETCORE_URLS=http://0.0.0.0:5000
-    # Persist DataProtection keys to avoid warnings and cookie issues across restarts
-    # (optional; safe to keep even if you don't rely on it yet)
-    # Uncomment the next two lines to persist keys
-    # environment:
-    #   - ASPNETCORE_DATA_PROTECTION_DIR=/root/.aspnet/DataProtection-Keys
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./APIforPostMVC:/app
+      - /app/bin
+      - /app/obj
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postmvc;Username=postmvc;Password=postmvc_pwd
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1
+      - DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    depends_on:
+      - db
 
   db:
     image: postgres:16
