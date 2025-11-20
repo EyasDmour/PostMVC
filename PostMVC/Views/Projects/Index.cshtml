@@ -10,6 +10,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Priority</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -33,18 +34,12 @@
             <td>
                 @item.Priority
             </td>
+            <td>
+                <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@item.Id" class="btn btn-sm btn-secondary">Add Task</a>
+            </td>
         </tr>
 }
-<tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>
-        <a asp-action="Create" class="btn btn-sm btn-primary">Create</a>
-    </td>
-    <td></td>
-    <td></td>
-</tr>
+
 
     </tbody>
 </table>

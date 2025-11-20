@@ -1,0 +1,9 @@
+@model IEnumerable<PostMVC.Models.Tasks>
+<h2>Tasks</h2>
+<ul>
+@foreach (var t in Model ?? Enumerable.Empty<PostMVC.Models.Tasks>())
+{
+    <li>@t.Title</li>
+}
+</ul>
+<a asp-controller="Tasks" asp-action="Create">Create</a>

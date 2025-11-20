@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PostMVC.Data;
 using PostMVC.Data.Service;
 using PostMVC.Models;
 
