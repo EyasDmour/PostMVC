@@ -1,9 +1,32 @@
 @model IEnumerable<PostMVC.Models.Tasks>
 <h2>Tasks</h2>
-<ul>
-@foreach (var t in Model ?? Enumerable.Empty<PostMVC.Models.Tasks>())
+
+<form method="get">
+    <div class="mb-3">
+        <label>Select Project:</label>
+        <select name="projectId" class="form-control" onchange="this.form.submit()">
+            <option value="">-- Select a Project --</option>
+            @if (ViewBag.Projects != null)
+            {
+                foreach (var project in ViewBag.Projects)
+                {
+                    <!option value="@project.Id" @(Context.Request.Query["projectId"] == project.Id.ToString() ? "selected" : "")>
+                        @project.Name
+                    </!option>
+                }
+            }
+        </select>
+    </div>
+</form>
+
+@if (Model != null && Model.Any())
 {
-    <li>@t.Title</li>
+    <ul>
+    @foreach (var t in Model)
+    {
+        <li>@t.Title</li>
+    }
+    </ul>
 }
-</ul>
-<a asp-controller="Tasks" asp-action="Create">Create</a>
+
+<a asp-controller="Tasks" asp-action="Create" class="btn btn-primary"> Add Task</a>

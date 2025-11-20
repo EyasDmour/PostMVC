@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PostMVC.Data;
 using PostMVC.Data.Service;
 using PostMVC.Models;
 
@@ -8,13 +9,25 @@ namespace PostMVC.Controllers
     public class TasksController : Controller
     {
         private readonly ITasksService _tasksService;
+        private readonly PostMVCContext _context;
 
-        public TasksController(ITasksService tasksService) => _tasksService = tasksService;
+        public TasksController(ITasksService tasksService, PostMVCContext context)
+        {
+            _tasksService = tasksService;
+            _context = context;
+        }
 
         [HttpGet("")]
-        public async Task<ActionResult> Index()
+        public ActionResult Index(int? projectId)
         {
-            var tasks = await _tasksService.GetAll();
+            ViewBag.Projects = _context.Projects.ToList();
+
+            if (projectId == null)
+            {
+                return View(new List<Tasks>());
+            }
+
+            var tasks = _context.Tasks.Where(t => t.ProjectId == projectId).ToList();
             return View(tasks);
         }
 
