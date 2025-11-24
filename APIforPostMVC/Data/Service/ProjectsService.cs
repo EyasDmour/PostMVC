@@ -21,9 +21,11 @@ public class ProjectsService : IProjectsService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Projects>> GetAll()
+    public async Task<IEnumerable<Projects>> GetAll(int userId)
     {
-        var projects = await _context.Projects.ToListAsync();
+        var projects = await _context.Projects
+            .Where(p => p.OwnerId == userId)
+            .ToListAsync();
         return projects;
     }
 }

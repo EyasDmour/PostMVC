@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 // Register HttpClient
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 // Register Services
 builder.Services.AddScoped<IProjectsService, ApiProjectsService>();
